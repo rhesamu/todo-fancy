@@ -1,7 +1,8 @@
 const Todo = require('../models/Todo')
 
 const getAll = function(req, res) {
-  Todo.findAll({ author: req.headers.userId })
+  console.log('req.user -->',req.user)
+  Todo.find({ author: req.user.userId })
   .then(todos => {
     console.log(todos)
     res
@@ -17,7 +18,7 @@ const getAll = function(req, res) {
 }
 
 const getByTodoId = function(req, res) {
-  Todo.findOne({ _id: req.params.todoId, author: req.headers.userId })
+  Todo.findOne({ _id: req.params.todoId, author: req.user.userId })
   .then(todo => {
     if (!todo) {
       res.status(404).json({message: `Todo not found`})
@@ -41,7 +42,7 @@ const getByTodoId = function(req, res) {
 
 const create = function(req, res) {
   let inputData = {
-    author: req.headers.userId,
+    author: req.user.userId,
     content: req.body.content
   }
 
@@ -76,7 +77,7 @@ const update = function(req, res) {
 
   Todo.findOneAndUpdate({
     _id: req.params.todoId,
-    author: req.headers.userId
+    author: req.user.userId
   }, inputData)
   .then(todo => {
     console.log(todo)
@@ -95,7 +96,7 @@ const update = function(req, res) {
 const remove = function(req, res) {
   Todo.findOneAndRemove({
     _id: req.params.todoId, 
-    author: req.headers.userId
+    author: req.user.userId
   })
   .then(todo => {
     console.log(todo)
