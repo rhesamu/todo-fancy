@@ -6,13 +6,9 @@ let todoSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  content: String,
-  deadline: Date,
-  isComplete: {
-    type: Boolean,
-    default: false
-  },
-  isImportant: {
+  title: String,
+  deadline: String,
+  done: {
     type: Boolean,
     default: false
   }

@@ -18,7 +18,7 @@ const getAll = function(req, res) {
 }
 
 const getByTodoId = function(req, res) {
-  Todo.findOne({ _id: req.params.todoId, author: req.user.userId })
+  Todo.findOne({ _id: req.params.todoId })
   .then(todo => {
     if (!todo) {
       res.status(404).json({message: `Todo not found`})
@@ -43,13 +43,13 @@ const getByTodoId = function(req, res) {
 const create = function(req, res) {
   let inputData = {
     author: req.user.userId,
-    content: req.body.content
+    title: req.body.title
   }
 
-  const { deadline, isImportant } = req.body
+  const { deadline } = req.body
 
   if (deadline) inputData.deadline = deadline
-  if (isImportant !== 'undefined') inputData.isImportant = isImportant
+  // if (isImportant !== 'undefined') inputData.isImportant = isImportant
 
   Todo.create(inputData)
   .then(todo => {
@@ -67,18 +67,17 @@ const create = function(req, res) {
 }
 
 const update = function(req, res) {
-  const { content, isComplete, deadline } = req.body
+  const { title, deadline, done } = req.body
   let inputData = {}
 
-  if (content) inputData.content = content
-  if (deadline) inputData.deadline = deadline
-  if (isImportant !== 'undefined') inputData.isImportant = isImportant
-  if (isComplete !== 'undefined') inputData.isComplete = isComplete
+  if (title) { inputData.title = title }
+  if (deadline) { inputData.deadline = deadline }
+  if (done === true || done === false) { inputData.done = done }
 
-  Todo.findOneAndUpdate({
-    _id: req.params.todoId,
-    author: req.user.userId
-  }, inputData)
+  console.log('inputData',inputData)
+  
+  let { todoId } = req.params
+  Todo.findByIdAndUpdate(todoId, inputData, { new: true })
   .then(todo => {
     console.log(todo)
     res
@@ -96,7 +95,7 @@ const update = function(req, res) {
 const remove = function(req, res) {
   Todo.findOneAndRemove({
     _id: req.params.todoId, 
-    author: req.user.userId
+    // author: req.user.userId
   })
   .then(todo => {
     console.log(todo)

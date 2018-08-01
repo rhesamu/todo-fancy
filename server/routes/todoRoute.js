@@ -8,7 +8,10 @@ router
     auth.isAuthenticated,
     TodoController.getAll
   )
-  // .post(Todo.create)
+  .post(
+    auth.isAuthenticated,
+    TodoController.create
+  )
 
 router
   .route('/:todoId')
