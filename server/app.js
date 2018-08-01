@@ -7,11 +7,11 @@ const logger = require('morgan');
 const mongoose = require('mongoose')
 const cors = require('cors')
 
-mongoose.connect('mongodb://localhost:27017/todofancy', {useNewUrlParser: true})
-// mongoose.connect(
-//   `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds263161.mlab.com:63161/todofancy`,
-//   {useNewUrlParser: true}
-// )
+// mongoose.connect('mongodb://localhost:27017/todofancy', {useNewUrlParser: true})
+mongoose.connect(
+  `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds263161.mlab.com:63161/todofancy`,
+  {useNewUrlParser: true}
+)
 
 let db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
