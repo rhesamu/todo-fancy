@@ -7,13 +7,14 @@ const isAuthenticated = function(req, res, next) {
     try {
       let decoded = jwt.verify(token, 'secretkey')
       console.log('decoded -->',decoded)
+      
       req['user'] = decoded
       next()
     } catch (error) {
-      res.status(400).json({ message: 'auth error', error})
+      res.status(400).json({ message: 'auth error', error })
     }
   } else {
-    res.status(400).json({ message: 'You have to login first'})
+    res.status(400).json({ message: 'You have to login first', error: 'You have to login first' })
   }
   // console.log('get token? -->', token)
   }
