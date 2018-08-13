@@ -1,3 +1,4 @@
+require('dotenv').config()
 const User = require('../models/User')
 const FB = require('fb')
 const jwt = require('jsonwebtoken')
@@ -23,14 +24,14 @@ const loginFB = function(req, res) {
           password: bcrypt.hashSync(response.id, 8)
         })
         .then(newUser => {
-          let token = jwt.sign({ userId: newUser._id, email: newUser.email }, 'secretkey')
+          let token = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.SECRET_KEY)
           console.log('User created', newUser, token)
           res
             .status(201)
             .json({ message: 'User created', token })
         })
       } else {
-        let token = jwt.sign({ userId: user._id, email: user.email }, 'secretkey')
+        let token = jwt.sign({ userId: user._id, email: user.email }, process.env.SECRET_KEY)
         console.log('User found', user, token)
         res
           .status(200)
@@ -52,7 +53,7 @@ const login = function(req, res) {
       return res.status(400).json({ error: 'Please input correct email / password' })
     }
     
-    let token = jwt.sign({ userId: user._id, email: user.email }, 'secretkey')
+    let token = jwt.sign({ userId: user._id, email: user.email }, process.env.SECRET_KEY)
     console.log('User found', user, token)
     res.status(200).json({ message: 'User found', token })
   })
