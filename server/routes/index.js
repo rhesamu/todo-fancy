@@ -11,6 +11,10 @@ router
   .post(authController.login)
 
 router
+  .route('/loginFB')
+  .post(authController.loginFB)
+
+router
   .route('/register')
   .post(userController.register)
 

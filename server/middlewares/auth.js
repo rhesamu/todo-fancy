@@ -1,3 +1,4 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
 const isAuthenticated = function(req, res, next) {
@@ -5,7 +6,7 @@ const isAuthenticated = function(req, res, next) {
   console.log('token -->',token)
   if (token) {
     try {
-      let decoded = jwt.verify(token, 'secretkey')
+      let decoded = jwt.verify(token, process.env.SECRET_KEY)
       console.log('decoded -->',decoded)
       
       req['user'] = decoded
@@ -16,8 +17,7 @@ const isAuthenticated = function(req, res, next) {
   } else {
     res.status(400).json({ message: 'You have to login first', error: 'You have to login first' })
   }
-  // console.log('get token? -->', token)
-  }
+}
 
 module.exports = {
   isAuthenticated
