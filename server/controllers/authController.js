@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs')
 
 const loginFB = function(req, res) {
   const { fbtoken } = req.headers
-  // console.log('Fb token -->', fbtoken)
+  console.log('Fb token -->', fbtoken)
   FB.setAccessToken(fbtoken)
   FB.api('me', {
     fields: ['id', 'name', 'email'],
